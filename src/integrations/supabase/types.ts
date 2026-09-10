@@ -325,16 +325,7 @@ export type Database = {
         Args: { _emoji?: string; _name: string }
         Returns: string
       }
-      is_space_member: {
-        Args: { _space_id: string; _user_id: string }
-        Returns: boolean
-      }
-      is_space_owner: {
-        Args: { _space_id: string; _user_id: string }
-        Returns: boolean
-      }
       join_space_by_code: { Args: { _code: string }; Returns: string }
-      note_space_id: { Args: { _note_id: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
