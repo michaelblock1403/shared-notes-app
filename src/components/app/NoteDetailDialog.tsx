@@ -71,7 +71,10 @@ export function NoteDetailDialog({
       .update({ title: title.trim(), body, updated_by: user.id, updated_at: new Date().toISOString() })
       .eq("id", note.id);
     setBusy(false);
-    if (error) return toast.error("Speichern fehlgeschlagen.");
+    if (error) {
+      toast.error("Speichern fehlgeschlagen.");
+      return;
+    }
     await logActivity(spaceId, user.id, "note_updated", title.trim(), note.id);
     await refresh();
     toast.success("Gespeichert.");
@@ -111,7 +114,10 @@ export function NoteDetailDialog({
       position: items.length,
       created_by: user.id,
     });
-    if (error) return toast.error("Eintrag konnte nicht ergänzt werden.");
+    if (error) {
+      toast.error("Eintrag konnte nicht ergänzt werden.");
+      return;
+    }
     await logActivity(spaceId, user.id, "item_added", note.title, note.id);
     setNewItem("");
     setNewQty("");
@@ -143,7 +149,10 @@ export function NoteDetailDialog({
     const { error } = await supabase
       .from("comments")
       .insert({ note_id: note.id, user_id: user.id, body: comment.trim() });
-    if (error) return toast.error("Kommentar fehlgeschlagen.");
+    if (error) {
+      toast.error("Kommentar fehlgeschlagen.");
+      return;
+    }
     await logActivity(spaceId, user.id, "comment_added", note.title, note.id);
     setComment("");
     await queryClient.invalidateQueries({ queryKey: ["comments", note.id] });

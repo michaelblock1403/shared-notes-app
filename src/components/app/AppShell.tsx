@@ -18,19 +18,16 @@ import { CreateSpaceDialog, JoinSpaceDialog } from "@/components/spaces/SpaceDia
 import { fetchSpaces } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { initials } from "@/lib/format";
-import { cn } from "@/lib/utils";
 
 function NavLink({
   to,
   params,
-  active,
   onClick,
   children,
 }: {
   to: string;
-  params?: Record<string, string>;
-  active: boolean;
-  onClick?: () => void;
+  params?: Record<string, string> | undefined;
+  onClick?: (() => void) | undefined;
   children: React.ReactNode;
 }) {
   return (
@@ -38,17 +35,18 @@ function NavLink({
       to={to as "/app/$spaceId"}
       params={params as { spaceId: string }}
       onClick={onClick}
-      className={cn(
-        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors",
-        active
-          ? "bg-primary/15 text-foreground"
-          : "text-muted-foreground hover:bg-accent hover:text-foreground",
-      )}
+      activeOptions={{ exact: true }}
+      activeProps={{ className: "bg-primary/15 text-foreground" }}
+      inactiveProps={{
+        className: "text-muted-foreground hover:bg-accent hover:text-foreground",
+      }}
+      className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors"
     >
       {children}
     </Link>
   );
 }
+
 
 function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
   const { profile, user, signOut } = useAuth();
@@ -90,7 +88,7 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
       </div>
 
       <nav className="flex-1 space-y-1 overflow-y-auto">
-        <NavLink to="/app" active={false} onClick={onNavigate} params={undefined}>
+        <NavLink to="/app" onClick={onNavigate}>
           <UsersIcon className="size-4 shrink-0" />
           <span className="font-medium">Übersicht</span>
         </NavLink>
@@ -107,7 +105,6 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
               key={space.id}
               to="/app/$spaceId"
               params={{ spaceId: space.id }}
-              active={false}
               onClick={onNavigate}
             >
               <span className="text-base leading-none">{space.emoji}</span>
@@ -118,7 +115,7 @@ function SidebarBody({ onNavigate }: { onNavigate?: () => void }) {
       </nav>
 
       <div className="space-y-1 border-t border-border pt-3">
-        <NavLink to="/app/settings" active={false} onClick={onNavigate} params={undefined}>
+        <NavLink to="/app/settings" onClick={onNavigate}>
           <SettingsIcon className="size-4 shrink-0" />
           <span>Einstellungen</span>
         </NavLink>
