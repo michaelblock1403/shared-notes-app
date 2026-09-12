@@ -25,7 +25,7 @@ const COLORS = ["#5B9DFF", "#7CD9B4", "#F5C26B", "#E08585", "#B89BE8", "#62D3E0"
 function SettingsPage() {
   const { profile, user, refreshProfile, signOut } = useAuth();
   const [name, setName] = useState(profile?.display_name ?? "");
-  const [color, setColor] = useState(profile?.avatar_color ?? COLORS[0]);
+  const [color, setColor] = useState<string>(profile?.avatar_color ?? "#5B9DFF");
   const [busyName, setBusyName] = useState(false);
 
   async function saveProfile() {

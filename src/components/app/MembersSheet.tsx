@@ -49,7 +49,10 @@ export function MembersSheet({
       invited_by: user.id,
     });
     setBusy(false);
-    if (error) return toast.error("Einladung fehlgeschlagen.");
+    if (error) {
+      toast.error("Einladung fehlgeschlagen.");
+      return;
+    }
     await logActivity(space.id, user.id, "member_invited", email.trim());
     setEmail("");
     await queryClient.invalidateQueries({ queryKey: ["invitations", space.id] });
